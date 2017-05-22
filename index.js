@@ -53,6 +53,13 @@ function getIt (options, done) {
 
   // Fetch playlist
   fetch.fetchUrl(uri, {timeout: DEFAULT_TIMEOUT}, function getPlaylist (err, meta, body) {
+    if (meta) {
+        var status = Number(meta.status);
+        if (status < 200 || status >= 400) {
+            return done('Status ' + status)
+        }
+    }
+
     if (err) {
       console.error('Error fetching url:', uri);
       return done(err);
