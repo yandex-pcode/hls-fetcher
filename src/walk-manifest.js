@@ -10,10 +10,15 @@ const fsSanitize = function(filepath) {
     .replace(/\?/g, '-questionmark-');
 };
 
+const isAbsolutePath = function(path) {
+  return path[0] === '/';
+}
+
 const joinURI = function(absolute, relative) {
   const parse = url.parse(absolute);
-
-  parse.pathname = path.join(parse.pathname, relative);
+  parse.pathname = isAbsolutePath(relative)
+      ? relative
+      : path.join(parse.pathname, relative);
   return url.format(parse);
 };
 
