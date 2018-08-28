@@ -147,7 +147,8 @@ const walkPlaylist = function(options) {
       visitedUrls = [],
       requestTimeout = 1500,
       requestRetryMaxAttempts = 5,
-      requestRetryDelay = 5000
+      requestRetryDelay = 5000,
+      requestRetryStrategy
     } = options;
 
     let resources = [];
@@ -180,7 +181,8 @@ const walkPlaylist = function(options) {
       url: manifest.uri,
       timeout: requestTimeout,
       maxAttempts: requestRetryMaxAttempts,
-      retryDelay: requestRetryDelay
+      retryDelay: requestRetryDelay,
+      retryStrategy: requestRetryStrategy
     })
       .then(function(response) {
         if (response.statusCode !== 200) {
@@ -205,7 +207,8 @@ const walkPlaylist = function(options) {
         parseKey({
           time: requestTimeout,
           maxAttempts: requestRetryMaxAttempts,
-          retryDelay: requestRetryDelay
+          retryDelay: requestRetryDelay,
+          retryStrategy: requestRetryStrategy
         }, basedir, decrypt, resources, manifest, parent).then(function(key) {
           // SEGMENTS
           manifest.parsed.segments.forEach(function(s, i) {
@@ -243,7 +246,8 @@ const walkPlaylist = function(options) {
               visitedUrls,
               requestTimeout,
               requestRetryMaxAttempts,
-              requestRetryDelay
+              requestRetryDelay,
+              requestRetryStrategy
             });
           });
 
